@@ -6064,7 +6064,7 @@ rb_ary_difference_multi(int argc, VALUE *argv, VALUE ary)
 static VALUE
 rb_ary_and(VALUE ary1, VALUE ary2)
 {
-    VALUE hash, ary3, v;
+    VALUE hash, ary3, temp_ary, v;
     st_data_t vv;
     long i;
 
@@ -6080,6 +6080,12 @@ rb_ary_and(VALUE ary1, VALUE ary2)
 	    rb_ary_push(ary3, v);
 	}
 	return ary3;
+    }
+
+    if (RARRAY_LEN(ary1) < RARRAY_LEN(ary2)) {
+        temp_ary = ary1;
+        ary1 = ary2;
+        ary2 = temp_ary;
     }
 
     hash = ary_make_hash(ary2);
@@ -6197,7 +6203,7 @@ rb_ary_union_hash(VALUE hash, VALUE ary2)
 static VALUE
 rb_ary_or(VALUE ary1, VALUE ary2)
 {
-    VALUE hash, ary3;
+    VALUE hash, ary3, temp_ary;
 
     ary2 = to_ary(ary2);
     if (RARRAY_LEN(ary1) + RARRAY_LEN(ary2) <= SMALL_ARRAY_LEN) {
@@ -6205,6 +6211,12 @@ rb_ary_or(VALUE ary1, VALUE ary2)
         rb_ary_union(ary3, ary1);
         rb_ary_union(ary3, ary2);
 	return ary3;
+    }
+
+    if (RARRAY_LEN(ary1) < RARRAY_LEN(ary2)) {
+        temp_ary = ary1;
+        ary1 = ary2;
+        ary2 = temp_ary;
     }
 
     hash = ary_make_hash(ary1);

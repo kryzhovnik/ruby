@@ -12,3 +12,4 @@ benchmark:
   small-intersection: small1.intersection(small2, small3, small4)
   big-&: big1 & big2 & big3
   big-intersection: big1.intersection(big2, big3)
+  big-reverse-intersection: big3.intersection(big2, big1)
